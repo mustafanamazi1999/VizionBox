@@ -18,6 +18,7 @@ import {
   Plus,
   Minus,
   Sparkles,
+  Star,
 } from "lucide-react";
 import { CTAButton } from "@/components/CTAButton";
 import { Reveal } from "@/components/Reveal";
@@ -51,6 +52,7 @@ function Index() {
         <HowItWorks />
         <WhatYouGet />
         <Results />
+        <Testimonials />
         <Guarantee />
         <Exclusivity />
         <FAQ />
@@ -396,6 +398,68 @@ function Results() {
                   )}
                 </div>
               </motion.article>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------------- Testimonials ---------------- */
+
+const TESTIMONIALS = [
+  {
+    quote:
+      "Before working with them I was spending $2,000 a month on Google Ads and had no idea what I was getting. Within the first month I had a dashboard showing me every single call and my cost per lead dropped by more than half.",
+    name: "Mike R.",
+    role: "HVAC Owner, Dallas TX",
+  },
+  {
+    quote:
+      "They built our landing page, set up tracking, and launched in under a week. Our phone went from quiet to ringing every day. First month we closed 6 new roofing jobs directly from the ads.",
+    name: "Dave T.",
+    role: "Roofing Contractor, Charlotte NC",
+  },
+  {
+    quote:
+      "I've worked with two other agencies before. Both overpromised and disappeared. These guys send me a report every Monday and jump on a call every month. The transparency alone is worth it.",
+    name: "Chris L.",
+    role: "Plumbing Business Owner, Phoenix AZ",
+  },
+];
+
+function Testimonials() {
+  return (
+    <section className="relative border-t border-white/5 py-24 sm:py-32">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8">
+        <Reveal>
+          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-accent">Testimonials</p>
+          <h2 className="mt-3 max-w-3xl text-balance text-4xl font-bold tracking-tight sm:text-5xl">
+            What Home Service Business Owners Say.
+          </h2>
+        </Reveal>
+
+        <div className="mt-16 grid gap-6 md:grid-cols-3">
+          {TESTIMONIALS.map((t, i) => (
+            <Reveal key={t.name} delay={i * 0.1}>
+              <div className="group relative flex h-full flex-col rounded-3xl border border-white/10 bg-gradient-to-br from-card to-card/40 p-8 backdrop-blur-sm transition-all duration-500 hover:border-accent/30">
+                <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-accent/0 blur-3xl transition-all duration-700 group-hover:bg-accent/20" />
+                <div className="relative flex flex-1 flex-col">
+                  <div className="flex gap-0.5 text-accent">
+                    {Array.from({ length: 5 }).map((_, s) => (
+                      <Star key={s} className="h-4 w-4 fill-current" strokeWidth={0} />
+                    ))}
+                  </div>
+                  <p className="mt-6 flex-1 text-balance text-base leading-relaxed text-foreground/90 italic">
+                    &ldquo;{t.quote}&rdquo;
+                  </p>
+                  <div className="mt-8 border-t border-white/5 pt-6">
+                    <p className="text-sm font-semibold text-foreground">&mdash; {t.name}</p>
+                    <p className="mt-0.5 text-xs text-muted-foreground">{t.role}</p>
+                  </div>
+                </div>
+              </div>
             </Reveal>
           ))}
         </div>
