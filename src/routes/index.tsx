@@ -117,12 +117,10 @@ function Hero() {
         </Reveal>
 
         <Reveal delay={0.1}>
-          <h1 className="mt-6 text-balance text-5xl font-extrabold leading-[1.02] tracking-tight sm:text-7xl md:text-[80px]">
-            We Get Home Service Businesses More Qualified Inbound Calls from Google Ads in 30 Days or Less -{" "}
-            <span className="relative inline-block">
-              <span className="bg-gradient-to-br from-accent via-accent to-[oklch(0.7_0.18_230)] bg-clip-text text-transparent">
-                Or Month 2 is FREE.
-              </span>
+          <h1 className="mt-6 text-balance text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-6xl md:text-[72px]">
+            We Get Home Service Businesses More Qualified Inbound Calls From Google Ads in 30 Days{" "}
+            <span className="bg-gradient-to-br from-accent to-[#00B5C7] bg-clip-text text-transparent">
+              — Or Month 2 is On Us.
             </span>
           </h1>
         </Reveal>
@@ -301,16 +299,7 @@ const RESULTS = [
       { num: "3.8x", label: "return on ad spend" },
       { num: "4 days", label: "campaign live within" },
     ],
-  },
-  {
-    emoji: "💧",
-    trade: "Water Damage Restoration",
-    city: "Denver, CO",
-    stats: [
-      { num: "0 → 61", label: "calls in the first month" },
-      { num: "$19", label: "cost per lead" },
-      { num: "Zero", label: "prior Google Ads presence" },
-    ],
+    quote: "Best ROI we've ever seen on marketing.",
   },
   {
     emoji: "🏠",
@@ -332,14 +321,15 @@ const RESULTS = [
       { num: "$67 → $22", label: "cost per lead" },
       { num: "$1,000", label: "ad spend / month" },
     ],
-    quote: "Phone didn't stop ringing. Best investment I've made for the business.",
+    quote: "Phone didn't stop ringing. Best investment I've made.",
   },
 ];
 
 function Results() {
   return (
     <section className="relative border-t border-white/5 py-24 sm:py-32">
-      <div className="mx-auto max-w-7xl px-5 sm:px-8">
+      <div className="pointer-events-none absolute inset-x-0 top-1/3 h-96 bg-accent/5 blur-3xl" />
+      <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
         <Reveal>
           <p className="text-sm font-semibold uppercase tracking-[0.18em] text-accent">Results</p>
           <h2 className="mt-3 max-w-3xl text-balance text-4xl font-bold tracking-tight sm:text-5xl">
@@ -347,45 +337,66 @@ function Results() {
           </h2>
         </Reveal>
 
-        <div className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-16 grid gap-6 md:grid-cols-2">
           {RESULTS.map((r, i) => (
-            <Reveal key={r.trade} delay={i * 0.06}>
-              <article
-                className={`group relative h-full overflow-hidden rounded-3xl border border-white/10 bg-card p-7 transition-all duration-500 hover:-translate-y-2 hover:border-accent/40 hover:shadow-[0_30px_80px_-20px_oklch(0.84_0.15_215_/_0.3)] ${
-                  i === 0 ? "lg:col-span-2" : ""
-                }`}
+            <Reveal key={r.trade} delay={i * 0.08}>
+              <motion.article
+                whileHover={{ y: -6 }}
+                transition={{ type: "spring", stiffness: 300, damping: 22 }}
+                className="group relative h-full overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-card to-card/40 p-8 backdrop-blur-sm transition-colors duration-500 hover:border-accent/50"
               >
-                <div className="absolute -right-12 -top-12 h-40 w-40 rounded-full bg-accent/0 blur-3xl transition-all duration-700 group-hover:bg-accent/15" />
+                <div className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-accent/0 blur-3xl transition-all duration-700 group-hover:bg-accent/25" />
+                <div
+                  className="pointer-events-none absolute inset-x-0 bottom-0 h-px"
+                  style={{ background: "linear-gradient(90deg, transparent, #006F7C, transparent)" }}
+                />
+
                 <div className="relative">
                   <div className="flex items-start justify-between gap-4">
-                    <div>
-                      <div className="text-4xl">{r.emoji}</div>
-                      <h3 className="mt-3 text-xl font-bold">{r.trade}</h3>
-                      <p className="mt-1 text-sm text-muted-foreground">{r.city}</p>
+                    <div className="flex items-center gap-4">
+                      <div className="grid h-14 w-14 place-items-center rounded-2xl border border-white/10 bg-white/5 text-3xl transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
+                        {r.emoji}
+                      </div>
+                      <div>
+                        <h3 className="text-xl font-bold">{r.trade}</h3>
+                        <p className="mt-0.5 flex items-center gap-1 text-sm text-muted-foreground">
+                          <MapPin className="h-3.5 w-3.5" />
+                          {r.city}
+                        </p>
+                      </div>
                     </div>
                     <span className="rounded-full border border-accent/30 bg-accent/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-accent">
                       Case study
                     </span>
                   </div>
 
-                  <div className={`mt-8 grid gap-6 ${i === 0 ? "sm:grid-cols-3" : "grid-cols-1"}`}>
+                  <div className="mt-8 grid grid-cols-3 gap-4">
                     {r.stats.map((s, idx) => (
-                      <div key={idx} className={idx > 0 ? "border-t border-white/5 pt-4 sm:border-l sm:border-t-0 sm:pl-6 sm:pt-0" : ""}>
-                        <div className="bg-gradient-to-br from-white to-white/60 bg-clip-text text-4xl font-black leading-none tracking-tight text-transparent sm:text-5xl">
+                      <motion.div
+                        key={idx}
+                        initial={{ opacity: 0, y: 10 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: i * 0.08 + idx * 0.1 + 0.2, duration: 0.5 }}
+                        className={idx > 0 ? "border-l border-white/5 pl-4" : ""}
+                      >
+                        <div className="bg-gradient-to-br from-white to-white/60 bg-clip-text text-2xl font-black leading-none tracking-tight text-transparent sm:text-3xl">
                           {s.num}
                         </div>
-                        <div className="mt-2 text-xs leading-snug text-muted-foreground sm:text-sm">{s.label}</div>
-                      </div>
+                        <div className="mt-2 text-[11px] leading-snug text-muted-foreground sm:text-xs">
+                          {s.label}
+                        </div>
+                      </motion.div>
                     ))}
                   </div>
 
                   {r.quote && (
-                    <blockquote className="mt-8 border-l-2 border-accent pl-4 text-base italic text-foreground/90">
+                    <blockquote className="mt-8 border-l-2 border-accent pl-4 text-sm italic text-foreground/90 sm:text-base">
                       "{r.quote}"
                     </blockquote>
                   )}
                 </div>
-              </article>
+              </motion.article>
             </Reveal>
           ))}
         </div>
