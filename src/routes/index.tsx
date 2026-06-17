@@ -19,6 +19,8 @@ import {
   Minus,
   Sparkles,
   Star,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import { CTAButton } from "@/components/CTAButton";
 import { Reveal } from "@/components/Reveal";
@@ -49,14 +51,16 @@ function Index() {
       <Header />
       <main>
         <Hero />
+        <ProofBar />
         <HowItWorks />
         <WhatYouGet />
+        <HandsOff />
         <Results />
         <Testimonials />
         <Guarantee />
         <Exclusivity />
-        <FAQ />
         <FinalCTA />
+        <FAQ />
       </main>
       <Footer />
       <MobileStickyCTA />
@@ -66,7 +70,17 @@ function Index() {
 
 /* ---------------- Header ---------------- */
 
+const NAV_LINKS = [
+  { href: "#how", label: "How It Works" },
+  { href: "#what", label: "What You Get" },
+  { href: "#results", label: "Results" },
+  { href: "#testimonials", label: "Testimonials" },
+  { href: "#guarantee", label: "Guarantee" },
+  { href: "#faq", label: "FAQ" },
+];
+
 function Header() {
+  const [open, setOpen] = useState(false);
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-white/5 bg-background/70 backdrop-blur-xl">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-3.5 sm:px-8">
@@ -76,14 +90,55 @@ function Header() {
           </span>
           <span className="text-base sm:text-lg">VizionBox</span>
         </a>
-        <CTAButton size="sm" className="hidden sm:inline-flex">Book Audit</CTAButton>
-        <a
-          href="#book"
-          className="sm:hidden rounded-full bg-accent px-4 py-2 text-xs font-semibold text-accent-foreground"
-        >
-          Book Audit
-        </a>
+
+        <nav className="hidden items-center gap-7 lg:flex">
+          {NAV_LINKS.map((l) => (
+            <a
+              key={l.href}
+              href={l.href}
+              className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+            >
+              {l.label}
+            </a>
+          ))}
+        </nav>
+
+        <div className="flex items-center gap-2">
+          <CTAButton size="sm" className="hidden sm:inline-flex">
+            Book Audit
+          </CTAButton>
+          <a
+            href="#book"
+            className="sm:hidden rounded-full bg-accent px-4 py-2 text-xs font-semibold text-accent-foreground"
+          >
+            Book Audit
+          </a>
+          <button
+            onClick={() => setOpen((v) => !v)}
+            className="grid h-9 w-9 place-items-center rounded-lg border border-white/10 lg:hidden"
+            aria-label="Toggle navigation"
+          >
+            {open ? <Minus className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
+          </button>
+        </div>
       </div>
+
+      {open && (
+        <div className="border-t border-white/5 bg-background/95 backdrop-blur-xl lg:hidden">
+          <nav className="mx-auto flex max-w-7xl flex-col px-5 py-4 sm:px-8">
+            {NAV_LINKS.map((l) => (
+              <a
+                key={l.href}
+                href={l.href}
+                onClick={() => setOpen(false)}
+                className="py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+              >
+                {l.label}
+              </a>
+            ))}
+          </nav>
+        </div>
+      )}
     </header>
   );
 }
@@ -100,28 +155,37 @@ function Hero() {
     <section
       id="top"
       ref={ref}
-      className="relative overflow-hidden pt-32 pb-24 sm:pt-40 sm:pb-32"
+      className="relative overflow-hidden pt-32 pb-20 sm:pt-40 sm:pb-24"
     >
       <div className="absolute inset-0 grid-bg" />
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-[600px]" style={{ background: "radial-gradient(ellipse 60% 50% at 50% 0%, oklch(0.32 0.08 230 / 0.45), transparent 70%)" }} />
+      <div
+        className="pointer-events-none absolute inset-x-0 top-0 h-[600px]"
+        style={{
+          background:
+            "radial-gradient(ellipse 60% 50% at 50% 0%, oklch(0.32 0.08 230 / 0.45), transparent 70%)",
+        }}
+      />
       <div className="pointer-events-none absolute -top-20 -left-20 h-96 w-96 rounded-full bg-accent/10 blur-3xl orb" />
-      <div className="pointer-events-none absolute -top-10 right-0 h-80 w-80 rounded-full bg-accent/5 blur-3xl orb" style={{ animationDelay: "3s" }} />
+      <div
+        className="pointer-events-none absolute -top-10 right-0 h-80 w-80 rounded-full bg-accent/5 blur-3xl orb"
+        style={{ animationDelay: "3s" }}
+      />
 
-      <motion.div style={{ y, opacity }} className="relative mx-auto max-w-5xl px-5 text-center sm:px-8">
+      <motion.div
+        style={{ y, opacity }}
+        className="relative mx-auto max-w-5xl px-5 text-center sm:px-8"
+      >
         <Reveal>
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3.5 py-1.5 text-xs font-medium text-muted-foreground backdrop-blur-sm opacity-0">
-            <span className="relative flex h-1.5 w-1.5">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75" />
-              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-accent" />
-            </span>
-          </div>
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-accent sm:text-sm">
+            Google Ads for Home Services
+          </p>
         </Reveal>
 
         <Reveal delay={0.1}>
-          <h1 className="mt-6 text-balance text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-6xl md:text-[72px]">
-            We Get Home Service Businesses More Qualified Inbound Calls From Google Ads in 30 Days{" "}
+          <h1 className="mt-5 text-balance text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-6xl md:text-[72px]">
+            We Get Home Service Businesses More Qualified Inbound Calls in 30 Days{" "}
             <span className="bg-gradient-to-br from-accent to-[#00B5C7] bg-clip-text text-transparent">
-              — Or Month 2 is On Us.
+              — Or Month 2 is FREE.
             </span>
           </h1>
         </Reveal>
@@ -130,33 +194,60 @@ function Hero() {
           <p className="mx-auto mt-7 max-w-2xl text-balance text-lg leading-relaxed text-muted-foreground sm:text-xl">
             We build and manage complete Google Ads systems for home service businesses.
             You're live in <span className="font-semibold text-foreground">3-5 business days</span>.
-            If we don't make you money in 30 days, <span className="font-semibold text-foreground">month 2 is on us</span>.
+            If we don't make you money in 30 days,{" "}
+            <span className="font-semibold text-foreground">month 2 is on us</span>.
           </p>
         </Reveal>
 
         <Reveal delay={0.3}>
-          <div className="mt-10 flex flex-col items-center gap-4">
-            <CTAButton size="lg">Book Your Free Google Ads Audit</CTAButton>
-            <p className="text-xs text-muted-foreground">{"\n"}</p>
-          </div>
-        </Reveal>
-
-        <Reveal delay={0.45}>
-          <div className="mx-auto mt-16 grid max-w-3xl grid-cols-3 gap-4 border-t border-white/5 pt-8 sm:gap-8">
-            {[
-              { v: "3-5", l: "days to live" },
-              { v: "30-day", l: "guarantee" },
-              { v: "1", l: "per city" },
-            ].map((s) => (
-              <div key={s.l} className="text-center">
-                <div className="text-2xl font-bold tracking-tight sm:text-3xl">{s.v}</div>
-                <div className="mt-1 text-xs text-muted-foreground sm:text-sm">{s.l}</div>
-              </div>
-            ))}
+          <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">
+            <CTAButton size="lg">Book Your Free Audit</CTAButton>
+            <CTAButton size="lg" variant="secondary" href="#how">
+              See How It Works
+            </CTAButton>
           </div>
         </Reveal>
       </motion.div>
     </section>
+  );
+}
+
+/* ---------------- Proof Bar ---------------- */
+
+const PROOF_ITEMS = [
+  "847 Leads Generated This Month",
+  "$34 Average Cost Per Lead",
+  "4.8x Average Return on Ad Spend",
+  "127 Home Service Businesses Served",
+  "3-5 Days Average Time to Launch",
+];
+
+function ProofBar() {
+  const loop = [...PROOF_ITEMS, ...PROOF_ITEMS];
+  return (
+    <div
+      className="relative overflow-hidden border-y border-white/10"
+      style={{ background: "#006F7C" }}
+    >
+      <div className="marquee-track flex items-center gap-12 py-4">
+        {loop.map((item, i) => (
+          <div key={i} className="flex shrink-0 items-center gap-12">
+            <span className="text-sm font-semibold uppercase tracking-[0.15em] text-white sm:text-base">
+              {item}
+            </span>
+            <span className="text-white/40">★</span>
+          </div>
+        ))}
+      </div>
+      <div
+        className="pointer-events-none absolute inset-y-0 left-0 w-16"
+        style={{ background: "linear-gradient(to right, #006F7C, transparent)" }}
+      />
+      <div
+        className="pointer-events-none absolute inset-y-0 right-0 w-16"
+        style={{ background: "linear-gradient(to left, #006F7C, transparent)" }}
+      />
+    </div>
   );
 }
 
@@ -187,12 +278,15 @@ const STEPS = [
 
 function HowItWorks() {
   return (
-    <section className="relative border-t border-white/5 py-24 sm:py-32">
+    <section id="how" className="relative border-t border-white/5 py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <Reveal>
-          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-accent">How it works</p>
-          <h2 className="mt-3 max-w-2xl text-balance text-4xl font-bold tracking-tight sm:text-5xl">
-            Up and running in 3-5 business days.
+          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-accent">
+            How it works
+          </p>
+          <h2 className="mt-3 max-w-3xl text-balance text-4xl font-bold tracking-tight sm:text-5xl">
+            From audit to ringing phone in{" "}
+            <span className="text-accent">5 days flat.</span>
           </h2>
         </Reveal>
 
@@ -225,53 +319,126 @@ function HowItWorks() {
 /* ---------------- What You Get ---------------- */
 
 const FEATURES = [
-  { icon: Target, title: "Google Ads Campaign", body: "Full search campaign built from scratch. Right keywords, right structure, right targeting for your city and service." },
-  { icon: LayoutTemplate, title: "Dedicated Landing Page", body: "A conversion focused page built specifically for your campaign. Not your homepage. A page with one purpose: turning clicks into calls." },
-  { icon: PhoneCall, title: "CallRail Call Tracking", body: "Every inbound call recorded, attributed, and tied back to the exact keyword and ad that generated it. Full visibility into every lead." },
-  { icon: BarChart3, title: "Live Reporting Dashboard", body: "Real time dashboard you can check from any device at any time. Calls, cost per lead, total spend, month over month performance." },
-  { icon: Mail, title: "Weekly Performance Report", body: "Every Monday morning a performance report lands in your inbox automatically. Calls last week, cost per lead, what we optimized, what we're testing next." },
-  { icon: CalendarCheck, title: "Monthly Strategy Call", body: "Once a month we review the previous month together, talk through what's working, and plan what's coming next." },
-  { icon: Settings2, title: "Weekly Optimization", body: "Every Wednesday we go into your account. Negative keywords, bid adjustments, ad testing, performance improvements. Your campaign improves every single week without you touching anything." },
+  {
+    icon: Target,
+    title: "Google Ads Campaign",
+    body: "Full search campaign built from scratch. Right keywords, right structure, right targeting for your city and service.",
+  },
+  {
+    icon: LayoutTemplate,
+    title: "Dedicated Landing Page",
+    body: "A conversion focused page built specifically for your campaign. Not your homepage. A page with one purpose: turning clicks into calls.",
+  },
+  {
+    icon: PhoneCall,
+    title: "CallRail Call Tracking",
+    body: "Every inbound call recorded, attributed, and tied back to the exact keyword and ad that generated it. Full visibility into every lead.",
+  },
+  {
+    icon: BarChart3,
+    title: "Live Reporting Dashboard",
+    body: "Real time dashboard you can check from any device at any time. Calls, cost per lead, total spend, month over month performance.",
+  },
+  {
+    icon: Mail,
+    title: "Weekly Performance Report",
+    body: "Every Monday morning a performance report lands in your inbox automatically. Calls last week, cost per lead, what we optimized, what we're testing next.",
+  },
+  {
+    icon: CalendarCheck,
+    title: "Monthly Strategy Call",
+    body: "Once a month we review the previous month together, talk through what's working, and plan what's coming next.",
+  },
+  {
+    icon: Settings2,
+    title: "Weekly Optimization",
+    body: "Every Wednesday we go into your account. Negative keywords, bid adjustments, ad testing, performance improvements. Your campaign improves every single week without you touching anything.",
+  },
 ];
 
 function WhatYouGet() {
   return (
-    <section className="relative border-t border-white/5 bg-navy-900/40 py-24 sm:py-32">
-      <div className="mx-auto max-w-7xl px-5 sm:px-8">
+    <section
+      id="what"
+      className="relative border-t border-white/5 bg-navy-900/40 py-24 sm:py-32"
+    >
+      <div
+        className="pointer-events-none absolute inset-x-0 top-0 h-72"
+        style={{
+          background:
+            "radial-gradient(ellipse 60% 100% at 50% 0%, oklch(0.32 0.08 230 / 0.3), transparent 70%)",
+        }}
+      />
+      <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
         <Reveal>
-          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-accent">What you get</p>
+          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-accent">
+            What you get
+          </p>
           <h2 className="mt-3 max-w-3xl text-balance text-4xl font-bold tracking-tight sm:text-5xl">
-            Everything you need.{" "}
-            <span className="text-muted-foreground">Nothing you don't.</span>
+            The complete system.{" "}
+            <span className="bg-gradient-to-br from-accent to-[#00B5C7] bg-clip-text text-transparent">
+              Built, launched, optimized — by us.
+            </span>
           </h2>
         </Reveal>
 
-        <div className="mt-16 grid gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-16 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {FEATURES.map((f, i) => (
             <Reveal key={f.title} delay={i * 0.05}>
-              <div className="group relative h-full bg-card p-7 transition-all duration-300 hover:bg-card/60">
-                <div className="flex items-center gap-3">
-                  <div className="grid h-10 w-10 place-items-center rounded-lg bg-accent/10 text-accent transition-all duration-300 group-hover:scale-110 group-hover:bg-accent group-hover:text-accent-foreground">
-                    <f.icon className="h-5 w-5" strokeWidth={2} />
+              <motion.div
+                whileHover={{ y: -4 }}
+                transition={{ type: "spring", stiffness: 300, damping: 22 }}
+                className="group relative h-full overflow-hidden rounded-2xl border border-white/10 bg-card p-7 transition-colors duration-300 hover:border-accent/40"
+              >
+                <div className="pointer-events-none absolute -right-12 -top-12 h-40 w-40 rounded-full bg-accent/0 blur-3xl transition-all duration-500 group-hover:bg-accent/20" />
+                <div className="relative">
+                  <div className="flex items-center gap-3">
+                    <div className="grid h-11 w-11 place-items-center rounded-xl bg-accent/10 text-accent transition-all duration-300 group-hover:scale-110 group-hover:bg-accent group-hover:text-accent-foreground">
+                      <f.icon className="h-5 w-5" strokeWidth={2} />
+                    </div>
+                    <h3 className="text-base font-semibold">{f.title}</h3>
                   </div>
-                  <h3 className="text-base font-semibold">{f.title}</h3>
+                  <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{f.body}</p>
                 </div>
-                <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{f.body}</p>
-              </div>
+              </motion.div>
             </Reveal>
           ))}
-          <div className="relative hidden bg-gradient-to-br from-accent/15 via-card to-card p-7 lg:block">
-            <div className="flex h-full flex-col justify-between">
-              <ShieldCheck className="h-8 w-8 text-accent" />
-              <div>
-                <p className="text-sm font-semibold uppercase tracking-wider text-accent">Set & forget</p>
-                <p className="mt-2 text-2xl font-bold leading-tight text-balance">
-                  You run your business. We run your phone.
-                </p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------------- Hands Off (Set & Forget standalone) ---------------- */
+
+function HandsOff() {
+  return (
+    <section className="relative border-t border-white/5 py-20 sm:py-24">
+      <div className="mx-auto max-w-5xl px-5 sm:px-8">
+        <Reveal>
+          <div
+            className="relative overflow-hidden rounded-[2rem] border border-accent/30 p-10 text-center sm:p-14"
+            style={{
+              background:
+                "linear-gradient(135deg, #006F7C 0%, oklch(0.22 0.04 260) 75%)",
+            }}
+          >
+            <div className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-white/10 blur-3xl orb" />
+            <div className="pointer-events-none absolute -bottom-20 -left-20 h-72 w-72 rounded-full bg-accent/30 blur-3xl orb" style={{ animationDelay: "3s" }} />
+            <div className="relative">
+              <div className="mx-auto grid h-16 w-16 place-items-center rounded-2xl border border-white/20 bg-white/10 backdrop-blur-sm">
+                <Settings2 className="h-7 w-7 text-white" strokeWidth={2} />
               </div>
+              <p className="mt-6 text-sm font-semibold uppercase tracking-[0.2em] text-white/80">
+                Truly hands-off
+              </p>
+              <p className="mx-auto mt-4 max-w-3xl text-balance text-2xl font-bold leading-snug text-white sm:text-3xl md:text-4xl">
+                "You don't touch anything. We handle the entire system —
+                you just answer the phone and close jobs."
+              </p>
             </div>
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );
@@ -328,7 +495,7 @@ const RESULTS = [
 
 function Results() {
   return (
-    <section className="relative border-t border-white/5 py-24 sm:py-32">
+    <section id="results" className="relative border-t border-white/5 py-24 sm:py-32">
       <div className="pointer-events-none absolute inset-x-0 top-1/3 h-96 bg-accent/5 blur-3xl" />
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
         <Reveal>
@@ -406,7 +573,7 @@ function Results() {
   );
 }
 
-/* ---------------- Testimonials ---------------- */
+/* ---------------- Testimonials (Slider) ---------------- */
 
 const TESTIMONIALS = [
   {
@@ -427,40 +594,111 @@ const TESTIMONIALS = [
     name: "Chris L.",
     role: "Plumbing Business Owner, Phoenix AZ",
   },
+  {
+    quote:
+      "Our cost per lead was $140 with our last agency. VizionBox got us to $38 in six weeks. I finally feel like I understand where every dollar goes.",
+    name: "Sarah K.",
+    role: "Electrical Services, Austin TX",
+  },
+  {
+    quote:
+      "Within ten days of launch my crew was fully booked. I had to hire two more techs just to keep up. They didn't just bring leads — they brought a real pipeline.",
+    name: "Tony M.",
+    role: "Garage Door Repair, Denver CO",
+  },
+  {
+    quote:
+      "I've never had a marketing company actually pick up the phone, send a Monday report, and explain numbers in plain English. These guys raised my standard for what an agency should be.",
+    name: "Brandon S.",
+    role: "Landscaping Owner, Atlanta GA",
+  },
 ];
 
 function Testimonials() {
-  return (
-    <section className="relative border-t border-white/5 py-24 sm:py-32">
-      <div className="mx-auto max-w-7xl px-5 sm:px-8">
-        <Reveal>
-          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-accent">Testimonials</p>
-          <h2 className="mt-3 max-w-3xl text-balance text-4xl font-bold tracking-tight sm:text-5xl">
-            What Home Service Business Owners Say.
-          </h2>
-        </Reveal>
+  const [index, setIndex] = useState(0);
+  const perView = 3;
+  const max = Math.max(0, TESTIMONIALS.length - perView);
 
-        <div className="mt-16 grid gap-6 md:grid-cols-3">
-          {TESTIMONIALS.map((t, i) => (
-            <Reveal key={t.name} delay={i * 0.1}>
-              <div className="group relative flex h-full flex-col rounded-3xl border border-white/10 bg-gradient-to-br from-card to-card/40 p-8 backdrop-blur-sm transition-all duration-500 hover:border-accent/30">
-                <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-accent/0 blur-3xl transition-all duration-700 group-hover:bg-accent/20" />
-                <div className="relative flex flex-1 flex-col">
-                  <div className="flex gap-0.5 text-accent">
-                    {Array.from({ length: 5 }).map((_, s) => (
-                      <Star key={s} className="h-4 w-4 fill-current" strokeWidth={0} />
-                    ))}
-                  </div>
-                  <p className="mt-6 flex-1 text-balance text-base leading-relaxed text-foreground/90 italic">
-                    &ldquo;{t.quote}&rdquo;
-                  </p>
-                  <div className="mt-8 border-t border-white/5 pt-6">
-                    <p className="text-sm font-semibold text-foreground">&mdash; {t.name}</p>
-                    <p className="mt-0.5 text-xs text-muted-foreground">{t.role}</p>
+  const prev = () => setIndex((i) => Math.max(0, i - 1));
+  const next = () => setIndex((i) => Math.min(max, i + 1));
+
+  return (
+    <section id="testimonials" className="relative border-t border-white/5 py-24 sm:py-32">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8">
+        <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+          <Reveal>
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-accent">
+                Testimonials
+              </p>
+              <h2 className="mt-3 max-w-2xl text-balance text-4xl font-bold tracking-tight sm:text-5xl">
+                What Home Service Business Owners Say.
+              </h2>
+            </div>
+          </Reveal>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={prev}
+              disabled={index === 0}
+              className="grid h-11 w-11 place-items-center rounded-full border border-white/10 bg-white/5 transition-all hover:border-accent/50 hover:bg-accent/10 disabled:cursor-not-allowed disabled:opacity-30"
+              aria-label="Previous"
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </button>
+            <button
+              onClick={next}
+              disabled={index >= max}
+              className="grid h-11 w-11 place-items-center rounded-full border border-white/10 bg-white/5 transition-all hover:border-accent/50 hover:bg-accent/10 disabled:cursor-not-allowed disabled:opacity-30"
+              aria-label="Next"
+            >
+              <ChevronRight className="h-5 w-5" />
+            </button>
+          </div>
+        </div>
+
+        <div className="relative mt-12 overflow-hidden">
+          <motion.div
+            className="flex gap-6"
+            animate={{ x: `calc(${-index} * (100% / ${perView}) - ${index} * 1.5rem / ${perView})` }}
+            transition={{ type: "spring", stiffness: 120, damping: 22 }}
+          >
+            {TESTIMONIALS.map((t) => (
+              <div
+                key={t.name}
+                className="w-full shrink-0 md:w-[calc((100%-3rem)/3)]"
+              >
+                <div className="group relative flex h-full flex-col rounded-3xl border border-white/10 bg-gradient-to-br from-card to-card/40 p-8 backdrop-blur-sm transition-all duration-500 hover:border-accent/40">
+                  <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-accent/0 blur-3xl transition-all duration-700 group-hover:bg-accent/20" />
+                  <div className="relative flex flex-1 flex-col">
+                    <div className="flex gap-0.5 text-accent">
+                      {Array.from({ length: 5 }).map((_, s) => (
+                        <Star key={s} className="h-4 w-4 fill-current" strokeWidth={0} />
+                      ))}
+                    </div>
+                    <p className="mt-6 flex-1 text-balance text-base leading-relaxed italic text-foreground/90">
+                      &ldquo;{t.quote}&rdquo;
+                    </p>
+                    <div className="mt-8 border-t border-white/5 pt-6">
+                      <p className="text-sm font-semibold text-foreground">— {t.name}</p>
+                      <p className="mt-0.5 text-xs text-muted-foreground">{t.role}</p>
+                    </div>
                   </div>
                 </div>
               </div>
-            </Reveal>
+            ))}
+          </motion.div>
+        </div>
+
+        <div className="mt-8 flex items-center justify-center gap-2">
+          {Array.from({ length: max + 1 }).map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setIndex(i)}
+              className={`h-1.5 rounded-full transition-all ${
+                i === index ? "w-8 bg-accent" : "w-1.5 bg-white/20 hover:bg-white/40"
+              }`}
+              aria-label={`Go to slide ${i + 1}`}
+            />
           ))}
         </div>
       </div>
@@ -472,27 +710,61 @@ function Testimonials() {
 
 function Guarantee() {
   return (
-    <section className="relative py-24 sm:py-32">
+    <section id="guarantee" className="relative py-24 sm:py-32">
       <div className="mx-auto max-w-5xl px-5 sm:px-8">
         <Reveal>
-          <div className="relative overflow-hidden rounded-[2rem] border border-accent/30 p-10 sm:p-16" style={{ background: "linear-gradient(135deg, oklch(0.84 0.15 215 / 0.18), oklch(0.22 0.04 260) 60%)" }}>
-            <div className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-accent/30 blur-3xl orb" />
-            <div className="pointer-events-none absolute -bottom-24 -left-20 h-72 w-72 rounded-full bg-accent/15 blur-3xl orb" style={{ animationDelay: "4s" }} />
+          <div
+            className="relative overflow-hidden rounded-[2rem] border border-accent/40 p-10 sm:p-16"
+            style={{
+              background:
+                "linear-gradient(135deg, #006F7C 0%, oklch(0.22 0.04 260) 70%)",
+            }}
+          >
+            <div className="pointer-events-none absolute -right-20 -top-20 h-80 w-80 rounded-full bg-accent/40 blur-3xl orb" />
+            <div
+              className="pointer-events-none absolute -bottom-24 -left-20 h-80 w-80 rounded-full bg-white/10 blur-3xl orb"
+              style={{ animationDelay: "4s" }}
+            />
 
-            <div className="relative grid items-center gap-10 md:grid-cols-[auto_1fr]">
-              <div className="grid h-24 w-24 shrink-0 place-items-center rounded-2xl border border-accent/40 bg-background/50 backdrop-blur-sm sm:h-32 sm:w-32">
-                <ShieldCheck className="h-12 w-12 text-accent sm:h-16 sm:w-16" strokeWidth={1.5} />
+            <div className="relative grid items-start gap-10 md:grid-cols-[auto_1fr]">
+              <div className="grid h-24 w-24 shrink-0 place-items-center rounded-2xl border border-white/30 bg-background/40 backdrop-blur-sm sm:h-32 sm:w-32">
+                <ShieldCheck
+                  className="h-12 w-12 text-white sm:h-16 sm:w-16"
+                  strokeWidth={1.5}
+                />
               </div>
               <div className="min-w-0">
-                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-accent">The guarantee</p>
-                <h2 className="mt-3 text-balance text-4xl font-bold tracking-tight sm:text-5xl">
-                  Zero risk. Guaranteed.
+                <p className="text-sm font-semibold uppercase tracking-[0.22em] text-white/80">
+                  The guarantee
+                </p>
+                <h2 className="mt-3 text-balance text-4xl font-extrabold leading-[1.05] tracking-tight text-white sm:text-5xl md:text-6xl">
+                  We don't get paid{" "}
+                  <span className="text-accent-cyan" style={{ color: "#7FE5EC" }}>
+                    unless you do.
+                  </span>
                 </h2>
-                <p className="mt-5 text-balance text-base leading-relaxed text-foreground/90 sm:text-lg">
-                  If your campaign isn't generating a positive return on ad spend within the first 30 days — meaning you are making more from closed jobs than you are spending on ads — <span className="font-semibold text-accent">month 2 is completely free</span>. No asterisks. No conditions. No fine print. We only win when you win first.
+                <p className="mt-6 text-balance text-base leading-relaxed text-white/90 sm:text-lg">
+                  If your campaign isn't generating a positive return on ad spend within the
+                  first 30 days — meaning you are making less from closed jobs than you are
+                  spending on ads —{" "}
+                  <span className="font-semibold text-white underline decoration-white/60 underline-offset-4">
+                    month 2 is completely free
+                  </span>
+                  .
                 </p>
               </div>
             </div>
+          </div>
+        </Reveal>
+
+        <Reveal delay={0.15}>
+          <div className="relative mx-auto mt-8 max-w-3xl overflow-hidden rounded-2xl border border-accent/40 bg-background/60 p-8 text-center backdrop-blur-sm sm:p-10">
+            <div className="pointer-events-none absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-accent to-transparent" />
+            <p className="text-balance text-xl font-bold leading-snug text-foreground sm:text-2xl md:text-3xl">
+              No long-term contracts.{" "}
+              <span className="text-accent">No lock-in.</span>{" "}
+              We earn your business every single month.
+            </p>
           </div>
         </Reveal>
       </div>
@@ -517,10 +789,8 @@ function Exclusivity() {
         <Reveal delay={0.1}>
           <h2 className="mt-6 text-balance text-4xl font-bold tracking-tight sm:text-6xl">
             We only work with{" "}
-            <span className="relative inline-block">
-              <span className="bg-gradient-to-br from-accent to-[oklch(0.65_0.2_230)] bg-clip-text text-transparent">
-                one business
-              </span>
+            <span className="bg-gradient-to-br from-accent to-[#00B5C7] bg-clip-text text-transparent">
+              one business
             </span>
             <br className="hidden sm:block" /> per city.
           </h2>
@@ -529,7 +799,11 @@ function Exclusivity() {
         <Reveal delay={0.2}>
           <p className="mx-auto mt-7 max-w-3xl text-balance text-lg leading-relaxed text-muted-foreground">
             We don't work with two plumbers in Austin or two roofers in Denver. We take{" "}
-            <span className="font-semibold text-foreground">one business per service category per city</span> — and we go all in on winning that market for them. Once your area is taken we can't work with a competitor in the same space.
+            <span className="font-semibold text-foreground">
+              one business per service category per city
+            </span>{" "}
+            — and we go all in on winning that market for them. Once your area is taken we can't
+            work with a competitor in the same space.
           </p>
         </Reveal>
 
@@ -537,7 +811,9 @@ function Exclusivity() {
           <div className="mx-auto mt-10 flex max-w-md items-center gap-3 rounded-2xl border border-accent/30 bg-accent/5 px-5 py-4 text-left">
             <MapPin className="h-5 w-5 shrink-0 text-accent" />
             <p className="text-sm text-foreground">
-              If you're reading this, <span className="font-semibold">your market is still open</span>. We can't hold it indefinitely.
+              If you're reading this,{" "}
+              <span className="font-semibold">your market is still open</span>. We can't hold it
+              indefinitely.
             </p>
           </div>
         </Reveal>
@@ -580,7 +856,7 @@ const FAQS = [
 function FAQ() {
   const [open, setOpen] = useState<number | null>(0);
   return (
-    <section className="relative py-24 sm:py-32">
+    <section id="faq" className="relative border-t border-white/5 py-24 sm:py-32">
       <div className="mx-auto max-w-3xl px-5 sm:px-8">
         <Reveal>
           <p className="text-sm font-semibold uppercase tracking-[0.18em] text-accent">FAQ</p>
@@ -594,14 +870,22 @@ function FAQ() {
             const isOpen = open === i;
             return (
               <Reveal key={f.q} delay={i * 0.05}>
-                <div className={`overflow-hidden rounded-2xl border bg-card/50 backdrop-blur-sm transition-all duration-300 ${isOpen ? "border-accent/40 bg-card" : "border-white/10 hover:border-white/20"}`}>
+                <div
+                  className={`overflow-hidden rounded-2xl border bg-card/50 backdrop-blur-sm transition-all duration-300 ${
+                    isOpen ? "border-accent/40 bg-card" : "border-white/10 hover:border-white/20"
+                  }`}
+                >
                   <button
                     onClick={() => setOpen(isOpen ? null : i)}
                     className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left"
                   >
                     <span className="text-base font-semibold sm:text-lg">{f.q}</span>
                     <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-white/10 bg-white/5 transition-all duration-300">
-                      {isOpen ? <Minus className="h-4 w-4 text-accent" /> : <Plus className="h-4 w-4" />}
+                      {isOpen ? (
+                        <Minus className="h-4 w-4 text-accent" />
+                      ) : (
+                        <Plus className="h-4 w-4" />
+                      )}
                     </span>
                   </button>
                   <div
@@ -630,20 +914,30 @@ function FinalCTA() {
   return (
     <section id="book" className="relative overflow-hidden border-t border-white/5 py-28 sm:py-36">
       <div className="absolute inset-0 grid-bg" />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[500px]" style={{ background: "radial-gradient(ellipse 60% 70% at 50% 100%, oklch(0.32 0.1 220 / 0.5), transparent 70%)" }} />
+      <div
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-[500px]"
+        style={{
+          background:
+            "radial-gradient(ellipse 60% 70% at 50% 100%, oklch(0.32 0.1 220 / 0.5), transparent 70%)",
+        }}
+      />
       <div className="pointer-events-none absolute left-1/2 top-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/10 blur-3xl orb" />
 
       <div className="relative mx-auto max-w-4xl px-5 text-center sm:px-8">
         <Reveal>
           <h2 className="text-balance text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-6xl md:text-7xl">
             Your competitors are buying the top spots on Google{" "}
-            <span className="bg-gradient-to-br from-accent to-[oklch(0.65_0.2_230)] bg-clip-text text-transparent">right now.</span>
+            <span className="bg-gradient-to-br from-accent to-[#00B5C7] bg-clip-text text-transparent">
+              right now.
+            </span>
           </h2>
         </Reveal>
 
         <Reveal delay={0.15}>
           <p className="mx-auto mt-7 max-w-2xl text-balance text-lg leading-relaxed text-muted-foreground sm:text-xl">
-            Every day without a properly built campaign is another day those calls go to someone else. Book your free audit and we'll show you exactly what your market looks like and what it would take to win it.
+            Every day without a properly built campaign is another day those calls go to someone
+            else. Book your free audit and we'll show you exactly what your market looks like and
+            what it would take to win it.
           </p>
         </Reveal>
 
@@ -666,31 +960,29 @@ function Footer() {
   return (
     <footer className="border-t border-white/5 bg-navy-900/40 py-14">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
-        <div className="grid gap-10 md:grid-cols-[1fr_auto] md:items-end">
-          <div>
-            <div className="flex items-center gap-2 font-bold tracking-tight">
-              <span className="grid h-8 w-8 place-items-center rounded-lg bg-accent text-accent-foreground">
-                <Sparkles className="h-4 w-4" strokeWidth={2.5} />
-              </span>
-              <span className="text-lg">VizionBox</span>
-            </div>
-            <p className="mt-4 text-sm text-muted-foreground">
-              Google Ads Management for Home Service Businesses
-            </p>
-            <div className="mt-4 flex flex-col gap-1 text-sm">
-              <a href="mailto:mustafa@thevizionbox.com" className="text-foreground transition-colors hover:text-accent">
-                mustafa@thevizionbox.com
-              </a>
-              <a href="https://thevizionbox.com" className="text-muted-foreground transition-colors hover:text-accent">
-                thevizionbox.com
-              </a>
-            </div>
+        <div>
+          <div className="flex items-center gap-2 font-bold tracking-tight">
+            <span className="grid h-8 w-8 place-items-center rounded-lg bg-accent text-accent-foreground">
+              <Sparkles className="h-4 w-4" strokeWidth={2.5} />
+            </span>
+            <span className="text-lg">VizionBox</span>
           </div>
-          <div className="md:text-right">
-            <p className="text-xs uppercase tracking-wider text-muted-foreground">
-              One business per category per city.
-            </p>
-            <p className="mt-1 text-sm font-semibold text-accent">Results guaranteed.</p>
+          <p className="mt-4 text-sm text-muted-foreground">
+            Google Ads Management for Home Service Businesses
+          </p>
+          <div className="mt-4 flex flex-col gap-1 text-sm">
+            <a
+              href="mailto:mustafa@thevizionbox.com"
+              className="text-foreground transition-colors hover:text-accent"
+            >
+              mustafa@thevizionbox.com
+            </a>
+            <a
+              href="https://thevizionbox.com"
+              className="text-muted-foreground transition-colors hover:text-accent"
+            >
+              thevizionbox.com
+            </a>
           </div>
         </div>
         <div className="mt-10 border-t border-white/5 pt-6 text-xs text-muted-foreground">
