@@ -168,3 +168,14 @@
 @utility orb {
   animation: float-orb 12s ease-in-out infinite;
 }
+
+@keyframes marquee-x {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@utility marquee-track {
+  animation: marquee-x 40s linear infinite;
+  width: max-content;
+}
+
