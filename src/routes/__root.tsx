@@ -77,9 +77,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "VizionBox — Google Ads for Home Service Businesses" },
+      { title: "VizionBox · Google Ads for Home Service Businesses" },
       { name: "description", content: "We build and manage complete Google Ads systems for home service businesses. Live in 3-5 days. Results guaranteed in 30 days." },
-      { property: "og:title", content: "VizionBox — More Inbound Calls From Google. Guaranteed." },
+      { property: "og:title", content: "VizionBox · More Inbound Calls From Google. Guaranteed." },
       { property: "og:description", content: "Google Ads management for home service businesses. One business per city. Results guaranteed." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
