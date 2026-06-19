@@ -22,15 +22,16 @@ import {
   Star,
   ChevronLeft,
   ChevronRight,
-  BadgeCheck,
-  Award,
-  LineChart,
 } from "lucide-react";
 import { CTAButton, CALENDLY_URL } from "@/components/CTAButton";
 import { Reveal } from "@/components/Reveal";
 import { CountUp } from "@/components/CountUp";
+import { CountDown } from "@/components/CountDown";
 import { usePastHero } from "@/hooks/use-past-hero";
-import logoAsset from "@/assets/vizionbox-logo.png.asset.json";
+import logoFullAsset from "@/assets/vizionbox-full.png.asset.json";
+import googlePartnerAsset from "@/assets/google-partner.png.asset.json";
+import googleAdsCertAsset from "@/assets/google-ads-certified.png.asset.json";
+import googleAdsSearchAsset from "@/assets/google-ads-search.png.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -52,7 +53,10 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const LOGO_URL = logoAsset.url;
+const LOGO_URL = logoFullAsset.url;
+
+/* Spring used on whileTap so touch users feel the lift desktop users get on hover. */
+const TAP = { scale: 0.98 } as const;
 
 function Index() {
   const pastHero = usePastHero();
@@ -63,7 +67,6 @@ function Index() {
         <Hero />
         <ProofBar />
         <Certifications />
-        <Problem />
         <HowItWorks />
         <WhatYouGet />
         <HandsOff />
@@ -85,23 +88,23 @@ function Index() {
 
 const NAV_LINKS = [
   { href: "#how", label: "How It Works" },
-  { href: "#what", label: "What You Get" },
+  { href: "#industries", label: "Industries" },
   { href: "#results", label: "Results" },
+  { href: "#what", label: "What You Get" },
   { href: "#testimonials", label: "Testimonials" },
   { href: "#guarantee", label: "Guarantee" },
   { href: "#faq", label: "FAQ" },
 ];
 
-function Logo({ size = 44 }: { size?: number }) {
+function Logo({ height = 56 }: { height?: number }) {
   return (
-    <a href="#top" className="flex items-center gap-3 font-bold tracking-tight">
+    <a href="#top" className="flex items-center" aria-label="VizionBox home">
       <img
         src={LOGO_URL}
         alt="VizionBox"
-        style={{ height: size, width: "auto" }}
-        className="object-contain"
+        style={{ height }}
+        className="w-auto object-contain"
       />
-      <span className="text-lg sm:text-xl">VizionBox</span>
     </a>
   );
 }
@@ -111,9 +114,9 @@ function Header({ pastHero }: { pastHero: boolean }) {
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-white/5 bg-background/70 backdrop-blur-xl">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-3 sm:px-8">
-        <Logo size={40} />
+        <Logo height={56} />
 
-        <nav className="hidden items-center gap-7 lg:flex">
+        <nav className="hidden items-center gap-6 lg:flex">
           {NAV_LINKS.map((l) => (
             <a
               key={l.href}
@@ -191,16 +194,16 @@ function Hero() {
         className="pointer-events-none absolute inset-x-0 top-0 h-[600px]"
         style={{
           background:
-            "radial-gradient(ellipse 60% 50% at 50% 0%, oklch(0.34 0.08 230 / 0.5), transparent 70%)",
+            "radial-gradient(ellipse 60% 50% at 50% 0%, rgba(0,111,124,0.45), transparent 70%)",
         }}
       />
       <motion.div
         style={{ y: bgY }}
-        className="pointer-events-none absolute -top-20 -left-20 h-96 w-96 rounded-full bg-brand/10 blur-3xl orb"
+        className="pointer-events-none absolute -top-20 -left-20 h-96 w-96 rounded-full bg-accent/15 blur-3xl orb"
       />
       <motion.div
         style={{ y: bgY }}
-        className="pointer-events-none absolute -top-10 right-0 h-80 w-80 rounded-full bg-accent/10 blur-3xl orb"
+        className="pointer-events-none absolute -top-10 right-0 h-80 w-80 rounded-full bg-accent/15 blur-3xl orb"
       />
 
       <motion.div
@@ -208,7 +211,7 @@ function Hero() {
         className="relative mx-auto max-w-5xl px-5 text-center sm:px-8"
       >
         <Reveal>
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-brand sm:text-sm">
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-accent sm:text-sm">
             Google Ads for Home Services
           </p>
         </Reveal>
@@ -286,58 +289,29 @@ function ProofBar() {
 /* ---------------- Certifications ---------------- */
 
 const CERTS = [
-  { icon: Award, label: "Google Partner" },
-  { icon: BadgeCheck, label: "Google Ads Search Certified" },
-  { icon: LineChart, label: "Google Ads Measurement Certified" },
+  { src: googlePartnerAsset.url, label: "Google Partner" },
+  { src: googleAdsSearchAsset.url, label: "Google Ads Search Certified" },
+  { src: googleAdsCertAsset.url, label: "Google Ads Certified" },
 ];
 
 function Certifications() {
   return (
     <section className="border-b border-white/5 py-10">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
-        <div className="flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-5">
+        <div className="grid grid-cols-3 items-center justify-items-center gap-3 sm:gap-6">
           {CERTS.map((c, i) => (
             <Reveal key={c.label} delay={i * 0.08}>
-              <div className="group flex items-center gap-3 rounded-full border border-brand/30 bg-white/[0.03] px-5 py-2.5 backdrop-blur-sm transition-all duration-300 hover:border-brand hover:bg-brand/10">
-                <span className="grid h-9 w-9 place-items-center rounded-full border border-brand/40 bg-brand/10 text-brand">
-                  <c.icon className="h-4 w-4" strokeWidth={2.2} />
-                </span>
-                <span className="text-xs font-semibold uppercase tracking-wider text-foreground sm:text-sm">
-                  {c.label}
-                </span>
+              <div className="flex items-center justify-center rounded-full border border-accent/30 bg-white/[0.04] px-4 py-2 backdrop-blur-sm transition-all duration-300 hover:border-accent hover:bg-accent/10 sm:px-7 sm:py-3">
+                <img
+                  src={c.src}
+                  alt={c.label}
+                  className="h-10 w-auto object-contain sm:h-12"
+                  loading="lazy"
+                />
               </div>
             </Reveal>
           ))}
         </div>
-      </div>
-    </section>
-  );
-}
-
-/* ---------------- Problem ---------------- */
-
-function Problem() {
-  return (
-    <section className="relative border-t border-white/5 py-24 sm:py-28">
-      <div className="mx-auto max-w-4xl px-5 text-center sm:px-8">
-        <Reveal>
-          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-brand">
-            The Problem
-          </p>
-          <h2 className="mt-3 text-balance text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
-            Most home service owners are losing money on Google Ads and don't even know it.
-          </h2>
-          <p className="mx-auto mt-6 max-w-2xl text-balance text-base leading-relaxed text-muted-foreground sm:text-lg">
-            Wrong keywords. Generic landing pages. No call tracking. No idea which clicks
-            actually turn into booked jobs. Every month your budget gets eaten and the
-            phone barely rings.
-          </p>
-        </Reveal>
-        <Reveal delay={0.2}>
-          <div className="mt-10">
-            <CTAButton size="lg">Get Your Free Audit</CTAButton>
-          </div>
-        </Reveal>
       </div>
     </section>
   );
@@ -377,7 +351,7 @@ function HowItWorks() {
     <section id="how" className="relative border-t border-white/5 py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <Reveal>
-          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-brand">
+          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-accent">
             How it works
           </p>
           <h2 className="mt-3 max-w-3xl text-balance text-4xl font-bold tracking-tight sm:text-5xl">
@@ -389,21 +363,24 @@ function HowItWorks() {
         <div className="mt-16 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
           {STEPS.map((step, i) => (
             <Reveal key={step.title} delay={i * 0.08}>
-              <div className="group relative h-full overflow-hidden rounded-2xl border border-white/10 bg-card/50 p-6 backdrop-blur-sm transition-all duration-500 hover:-translate-y-1 hover:border-brand/40 hover:bg-card">
-                <div className="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-brand/0 blur-2xl transition-all duration-500 group-hover:bg-brand/25" />
+              <motion.div
+                whileTap={TAP}
+                className="group relative h-full overflow-hidden rounded-2xl border border-white/10 bg-card/50 p-6 backdrop-blur-sm transition-all duration-500 hover:-translate-y-1 hover:border-accent/50 hover:bg-card active:border-accent/50 active:bg-card"
+              >
+                <div className="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-accent/0 blur-2xl transition-all duration-500 group-hover:bg-accent/30 group-active:bg-accent/30" />
                 <div className="relative">
                   <div className="flex items-center justify-between">
-                    <div className="text-4xl transition-transform duration-500 group-hover:scale-125 group-hover:rotate-6 drop-shadow-[0_4px_10px_rgba(225,106,61,0.3)]">
+                    <div className="text-4xl transition-transform duration-500 group-hover:scale-125 group-hover:rotate-6 group-active:scale-125 group-active:rotate-6 drop-shadow-[0_4px_10px_rgba(0,111,124,0.45)]">
                       {step.emoji}
                     </div>
-                    <span className="text-5xl font-black text-white/10 transition-all duration-500 group-hover:text-brand group-hover:scale-110 group-hover:font-black">
+                    <span className="text-5xl font-black text-white/10 transition-all duration-500 group-hover:text-accent group-hover:scale-110 group-active:text-accent group-active:scale-110">
                       {String(i + 1).padStart(2, "0")}
                     </span>
                   </div>
                   <h3 className="mt-6 text-lg font-semibold">{step.title}</h3>
                   <p className="mt-2 text-[15px] leading-relaxed text-muted-foreground">{step.body}</p>
                 </div>
-              </div>
+              </motion.div>
             </Reveal>
           ))}
         </div>
@@ -470,17 +447,17 @@ function WhatYouGet() {
         className="pointer-events-none absolute inset-x-0 top-0 h-72"
         style={{
           background:
-            "radial-gradient(ellipse 60% 100% at 50% 0%, oklch(0.34 0.08 230 / 0.35), transparent 70%)",
+            "radial-gradient(ellipse 60% 100% at 50% 0%, rgba(0,111,124,0.30), transparent 70%)",
         }}
       />
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
         <Reveal>
-          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-brand">
+          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-accent">
             What you get
           </p>
           <h2 className="mt-3 max-w-3xl text-balance text-4xl font-bold tracking-tight sm:text-5xl">
-            The complete system.{" "}
-            <span className="bg-gradient-to-br from-accent to-[#00B5C7] bg-clip-text text-transparent">
+            <span className="block">The complete system.</span>
+            <span className="mt-2 block bg-gradient-to-br from-accent to-[#00B5C7] bg-clip-text text-transparent">
               Built, launched, optimized. By us.
             </span>
           </h2>
@@ -491,16 +468,17 @@ function WhatYouGet() {
           <Reveal>
             <motion.div
               whileHover={{ y: -4 }}
+              whileTap={TAP}
               transition={{ type: "spring", stiffness: 300, damping: 22 }}
               className="group relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-card to-card/40 p-8 sm:p-12"
             >
-              <div className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-brand/10 blur-3xl transition-all duration-700 group-hover:bg-brand/25" />
+              <div className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-accent/10 blur-3xl transition-all duration-700 group-hover:bg-accent/30 group-active:bg-accent/30" />
               <div className="relative grid gap-8 md:grid-cols-[auto_1fr] md:items-center">
-                <div className="text-7xl transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 drop-shadow-[0_8px_20px_rgba(225,106,61,0.35)]">
+                <div className="text-7xl transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 group-active:scale-110 drop-shadow-[0_8px_20px_rgba(0,111,124,0.45)]">
                   {FEATURED_ITEM.emoji}
                 </div>
-                <div>
-                  <span className="inline-block rounded-full border border-brand/40 bg-brand/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-brand">
+                <div className="text-left">
+                  <span className="inline-block rounded-full border border-accent/40 bg-accent/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-accent">
                     The Engine
                   </span>
                   <h3 className="mt-3 text-2xl font-bold sm:text-3xl">
@@ -520,13 +498,14 @@ function WhatYouGet() {
             <Reveal key={f.title} delay={i * 0.05}>
               <motion.div
                 whileHover={{ y: -4 }}
+                whileTap={TAP}
                 transition={{ type: "spring", stiffness: 300, damping: 22 }}
-                className="group relative h-full overflow-hidden rounded-2xl border border-white/10 bg-card p-7 transition-colors duration-300 hover:border-brand/40"
+                className="group relative h-full overflow-hidden rounded-2xl border border-white/10 bg-card p-7 transition-colors duration-300 hover:border-accent/50 active:border-accent/50"
               >
-                <div className="pointer-events-none absolute -right-12 -top-12 h-40 w-40 rounded-full bg-brand/0 blur-3xl transition-all duration-500 group-hover:bg-brand/20" />
+                <div className="pointer-events-none absolute -right-12 -top-12 h-40 w-40 rounded-full bg-accent/0 blur-3xl transition-all duration-500 group-hover:bg-accent/25 group-active:bg-accent/25" />
                 <div className="relative">
                   <div className="flex items-center gap-3">
-                    <div className="text-3xl transition-all duration-300 group-hover:scale-125 group-hover:rotate-6 drop-shadow-[0_4px_10px_rgba(0,0,0,0.3)] group-hover:drop-shadow-[0_6px_14px_rgba(225,106,61,0.5)]">
+                    <div className="text-3xl transition-all duration-300 group-hover:scale-125 group-hover:rotate-6 group-active:scale-125 drop-shadow-[0_4px_10px_rgba(0,0,0,0.3)] group-hover:drop-shadow-[0_6px_14px_rgba(0,111,124,0.55)] group-active:drop-shadow-[0_6px_14px_rgba(0,111,124,0.55)]">
                       {f.emoji}
                     </div>
                     <h3 className="text-[17px] font-semibold">{f.title}</h3>
@@ -551,8 +530,9 @@ function HandsOff() {
         <Reveal>
           <motion.div
             whileHover={{ y: -6, scale: 1.01 }}
+            whileTap={TAP}
             transition={{ type: "spring", stiffness: 200, damping: 20 }}
-            className="group relative overflow-hidden rounded-[2rem] border border-accent/30 p-10 text-center transition-all duration-500 hover:border-brand/60 hover:shadow-[0_30px_80px_-20px_rgba(225,106,61,0.4)] sm:p-14"
+            className="group relative overflow-hidden rounded-[2rem] border border-accent/30 p-10 text-center transition-all duration-500 hover:border-brand/60 hover:shadow-[0_30px_80px_-20px_rgba(225,106,61,0.4)] active:border-brand/60 sm:p-14"
             style={{
               background:
                 "linear-gradient(135deg, #006F7C 0%, oklch(0.24 0.04 260) 75%)",
@@ -560,7 +540,7 @@ function HandsOff() {
           >
             <div className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-white/10 blur-3xl orb" />
             <div
-              className="pointer-events-none absolute -bottom-20 -left-20 h-72 w-72 rounded-full bg-brand/30 blur-3xl orb"
+              className="pointer-events-none absolute -bottom-20 -left-20 h-72 w-72 rounded-full bg-accent/40 blur-3xl orb"
               style={{ animationDelay: "3s" }}
             />
             <div className="relative">
@@ -581,28 +561,27 @@ function HandsOff() {
 
 /* ---------------- Industries ---------------- */
 
+/* Real-photo backgrounds: Unsplash search source, "person at work" framing.
+   We use loremflickr with `person,worker` tags + the niche so results are real photographs of people physically performing the job. */
 const INDUSTRIES = [
-  { name: "HVAC", query: "hvac,technician" },
-  { name: "Plumbing", query: "plumbing,pipes" },
-  { name: "Roofing", query: "roofing,roof" },
-  { name: "Pest Control", query: "pest,control" },
-  { name: "Locksmith", query: "locksmith,keys" },
-  { name: "Water Damage Restoration", query: "flood,water,damage" },
-  { name: "Foundation Repair", query: "foundation,construction" },
-  { name: "Tree Service", query: "tree,arborist" },
-  { name: "Mold Remediation", query: "mold,cleaning" },
-  { name: "Pool Service", query: "pool,maintenance" },
-  { name: "Garage Door Repair", query: "garage,door" },
-  { name: "Electricians", query: "electrician,wiring" },
+  { name: "HVAC", query: "hvac,technician,worker,person" },
+  { name: "Plumbing", query: "plumber,worker,person,working" },
+  { name: "Roofing", query: "roofer,construction,worker,person" },
+  { name: "Pest Control", query: "exterminator,pest,worker,person" },
+  { name: "Locksmith", query: "locksmith,worker,person,hands" },
+  { name: "Water Damage Restoration", query: "flood,restoration,worker,person" },
+  { name: "Foundation Repair", query: "foundation,construction,worker,person" },
+  { name: "Mold Remediation", query: "cleaning,remediation,worker,person" },
+  { name: "Garage Door Repair", query: "garage,repair,worker,person" },
 ];
 
 function Industries() {
   return (
-    <section className="relative border-t border-white/5 py-24 sm:py-32">
-      <div className="pointer-events-none absolute inset-x-0 top-1/3 h-96 bg-brand/5 blur-3xl" />
+    <section id="industries" className="relative border-t border-white/5 py-24 sm:py-32">
+      <div className="pointer-events-none absolute inset-x-0 top-1/3 h-96 bg-accent/5 blur-3xl" />
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
         <Reveal>
-          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-brand">
+          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-accent">
             Industries
           </p>
           <h2 className="mt-3 max-w-4xl text-balance text-4xl font-bold tracking-tight sm:text-5xl">
@@ -618,25 +597,26 @@ function Industries() {
           </p>
         </Reveal>
 
-        <div className="mt-14 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4">
+        <div className="mt-14 grid grid-cols-2 gap-4 sm:gap-5 md:grid-cols-3">
           {INDUSTRIES.map((ind, i) => (
-            <Reveal key={ind.name} delay={(i % 4) * 0.06}>
+            <Reveal key={ind.name} delay={(i % 3) * 0.06}>
               <motion.div
                 whileHover={{ y: -6, scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
                 transition={{ type: "spring", stiffness: 280, damping: 20 }}
-                className="group relative aspect-[4/5] overflow-hidden rounded-2xl border border-white/10 transition-all duration-500 hover:border-brand/60 hover:shadow-[0_20px_60px_-15px_rgba(225,106,61,0.5)]"
+                className="group relative aspect-[4/5] overflow-hidden rounded-2xl border border-white/10 transition-all duration-500 hover:border-accent/60 hover:shadow-[0_20px_60px_-15px_rgba(0,111,124,0.55)] active:border-accent/60"
               >
                 <img
-                  src={`https://loremflickr.com/600/750/${ind.query}?lock=${i + 1}`}
+                  src={`https://loremflickr.com/600/750/${ind.query}?lock=${i + 11}`}
                   alt={ind.name}
                   loading="lazy"
-                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110 group-active:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/20 transition-opacity duration-500 group-hover:from-background/95 group-hover:via-background/60" />
-                <div className="absolute inset-0 bg-gradient-to-br from-brand/0 to-brand/0 transition-all duration-500 group-hover:from-brand/20 group-hover:to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-br from-accent/0 to-accent/0 transition-all duration-500 group-hover:from-accent/25 group-hover:to-transparent group-active:from-accent/25" />
                 <div className="absolute inset-x-0 bottom-0 p-5">
                   <div className="flex items-center gap-2">
-                    <span className="h-1.5 w-6 rounded-full bg-brand transition-all duration-500 group-hover:w-10" />
+                    <span className="h-1.5 w-6 rounded-full bg-accent transition-all duration-500 group-hover:w-10 group-active:w-10" />
                   </div>
                   <h3 className="mt-3 text-lg font-bold leading-tight text-white sm:text-xl">
                     {ind.name}
@@ -654,7 +634,7 @@ function Industries() {
               href={CALENDLY_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-brand underline-offset-4 hover:underline"
+              className="text-accent underline-offset-4 hover:underline"
             >
               Ask on your audit call
             </a>
@@ -672,8 +652,9 @@ const RESULTS = [
     emoji: "🔧",
     trade: "Plumbing",
     city: "Dallas, TX",
-    calls: { num: 62, label: "qualified calls in month one" },
-    cpl: { before: "$91", after: "$28" },
+    calls: 62,
+    callsLabel: "qualified calls in month one",
+    cpl: { before: 91, after: 28 },
     spend: { num: "$1,200", label: "ad spend / month" },
     quote: "First month we ever had to turn away work.",
   },
@@ -681,8 +662,9 @@ const RESULTS = [
     emoji: "❄️",
     trade: "HVAC",
     city: "Tampa, FL",
-    calls: { num: 52, label: "qualified calls in 30 days" },
-    cpl: { before: "$88", after: "$31" },
+    calls: 52,
+    callsLabel: "qualified calls in 30 days",
+    cpl: { before: 88, after: 31 },
     spend: { num: "3.8x", label: "return on ad spend" },
     quote: "Best ROI we've ever seen on marketing.",
   },
@@ -690,8 +672,9 @@ const RESULTS = [
     emoji: "🏠",
     trade: "Roofing",
     city: "Phoenix, AZ",
-    calls: { num: 47, label: "qualified calls in month one" },
-    cpl: { before: "$112", after: "$34" },
+    calls: 47,
+    callsLabel: "qualified calls in month one",
+    cpl: { before: 112, after: 34 },
     spend: { num: "$1,500", label: "ad spend / month" },
     quote: "We booked out three weeks solid within the first month.",
   },
@@ -699,25 +682,13 @@ const RESULTS = [
     emoji: "🔒",
     trade: "Locksmith",
     city: "Chicago, IL",
-    calls: { num: 38, label: "qualified calls in month one" },
-    cpl: { before: "$67", after: "$22" },
+    calls: 38,
+    callsLabel: "qualified calls in month one",
+    cpl: { before: 67, after: 22 },
     spend: { num: "$1,000", label: "ad spend / month" },
     quote: "Phone didn't stop ringing. Best investment I've made.",
   },
 ];
-
-function ResultStat({ children, label }: { children: React.ReactNode; label: string }) {
-  return (
-    <div className="flex h-full flex-col justify-between">
-      <div className="bg-gradient-to-br from-white to-white/60 bg-clip-text text-2xl font-black leading-none tracking-tight text-transparent sm:text-3xl">
-        {children}
-      </div>
-      <div className="mt-3 text-[11px] leading-snug text-muted-foreground sm:text-xs">
-        {label}
-      </div>
-    </div>
-  );
-}
 
 function Results() {
   return (
@@ -725,7 +696,7 @@ function Results() {
       <div className="pointer-events-none absolute inset-x-0 top-1/3 h-96 bg-accent/5 blur-3xl" />
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
         <Reveal>
-          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-brand">Results</p>
+          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-accent">Results</p>
           <h2 className="mt-3 max-w-3xl text-balance text-4xl font-bold tracking-tight sm:text-5xl">
             What we've done for businesses like yours.
           </h2>
@@ -736,19 +707,20 @@ function Results() {
             <Reveal key={r.trade} delay={i * 0.08}>
               <motion.article
                 whileHover={{ y: -6 }}
+                whileTap={TAP}
                 transition={{ type: "spring", stiffness: 300, damping: 22 }}
-                className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-card to-card/40 p-8 backdrop-blur-sm transition-colors duration-500 hover:border-brand/40"
+                className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-card to-card/40 p-8 backdrop-blur-sm transition-colors duration-500 hover:border-accent/50 active:border-accent/50"
               >
-                <div className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-brand/0 blur-3xl transition-all duration-700 group-hover:bg-brand/25" />
+                <div className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-accent/0 blur-3xl transition-all duration-700 group-hover:bg-accent/30 group-active:bg-accent/30" />
                 <div
                   className="pointer-events-none absolute inset-x-0 bottom-0 h-px"
-                  style={{ background: "linear-gradient(90deg, transparent, #E16A3D, transparent)" }}
+                  style={{ background: "linear-gradient(90deg, transparent, #006F7C, transparent)" }}
                 />
 
                 <div className="relative flex flex-1 flex-col">
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex items-center gap-4">
-                      <div className="grid h-14 w-14 place-items-center rounded-2xl border border-white/10 bg-white/5 text-3xl transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
+                      <div className="grid h-14 w-14 place-items-center rounded-2xl border border-white/10 bg-white/5 text-3xl transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3 group-active:scale-110">
                         {r.emoji}
                       </div>
                       <div>
@@ -759,40 +731,68 @@ function Results() {
                         </p>
                       </div>
                     </div>
-                    <span className="rounded-full border border-brand/30 bg-brand/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-brand">
+                    <span className="rounded-full border border-accent/30 bg-accent/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-accent">
                       Case study
                     </span>
                   </div>
 
-                  {/* Cost per lead — emphasized */}
-                  <div className="mt-8 rounded-2xl border border-white/5 bg-white/[0.02] p-5">
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                  {/* Cost per lead — dramatic stacked before/after */}
+                  <div className="mt-8 overflow-hidden rounded-2xl border border-white/5 bg-gradient-to-br from-white/[0.04] to-white/[0.01] p-6">
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
                       Cost per lead
                     </p>
-                    <div className="mt-3 flex items-baseline gap-4">
-                      <span className="text-lg font-semibold text-muted-foreground/60 line-through decoration-2">
-                        {r.cpl.before}
-                      </span>
-                      <span className="text-4xl font-black tracking-tight text-brand sm:text-5xl">
-                        {r.cpl.after}
-                      </span>
+
+                    <div className="mt-4 flex flex-col items-start gap-1">
+                      <div className="flex items-baseline gap-2">
+                        <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70">
+                          Before
+                        </span>
+                        <span className="text-2xl font-bold leading-none text-muted-foreground/60 line-through decoration-destructive/70 decoration-2">
+                          ${r.cpl.before}
+                        </span>
+                      </div>
+
+                      <div className="mt-2 flex items-baseline gap-3">
+                        <span className="text-[10px] font-semibold uppercase tracking-wider text-accent">
+                          After
+                        </span>
+                        <CountDown
+                          from={r.cpl.before}
+                          to={r.cpl.after}
+                          prefix="$"
+                          duration={1800}
+                          className="text-[64px] font-black leading-none tracking-tight text-brand sm:text-[72px]"
+                        />
+                      </div>
                     </div>
                   </div>
 
                   {/* Standardized two stats below */}
                   <div className="mt-5 grid grid-cols-2 gap-4">
                     <div className="rounded-xl border border-white/5 bg-white/[0.02] p-4">
-                      <ResultStat label={r.calls.label}>
-                        <CountUp to={r.calls.num} />
-                      </ResultStat>
+                      <div className="flex h-full flex-col justify-between">
+                        <div className="bg-gradient-to-br from-white to-white/60 bg-clip-text text-2xl font-black leading-none tracking-tight text-transparent sm:text-3xl">
+                          {r.calls}
+                        </div>
+                        <div className="mt-3 text-[11px] leading-snug text-muted-foreground sm:text-xs">
+                          {r.callsLabel}
+                        </div>
+                      </div>
                     </div>
                     <div className="rounded-xl border border-white/5 bg-white/[0.02] p-4">
-                      <ResultStat label={r.spend.label}>{r.spend.num}</ResultStat>
+                      <div className="flex h-full flex-col justify-between">
+                        <div className="bg-gradient-to-br from-white to-white/60 bg-clip-text text-2xl font-black leading-none tracking-tight text-transparent sm:text-3xl">
+                          {r.spend.num}
+                        </div>
+                        <div className="mt-3 text-[11px] leading-snug text-muted-foreground sm:text-xs">
+                          {r.spend.label}
+                        </div>
+                      </div>
                     </div>
                   </div>
 
                   {r.quote && (
-                    <blockquote className="mt-8 border-l-2 border-brand pl-4 text-sm italic text-foreground/90 sm:text-base">
+                    <blockquote className="mt-8 border-l-2 border-accent pl-4 text-sm italic text-foreground/90 sm:text-base">
                       "{r.quote}"
                     </blockquote>
                   )}
@@ -904,7 +904,7 @@ function Testimonials() {
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <Reveal>
             <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-brand">
+              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-accent">
                 Testimonials
               </p>
               <h2 className="mt-3 max-w-2xl text-balance text-4xl font-bold tracking-tight sm:text-5xl">
@@ -916,7 +916,7 @@ function Testimonials() {
             <button
               onClick={handlePrev}
               disabled={!canPrev}
-              className="grid h-11 w-11 place-items-center rounded-full border border-white/10 bg-white/5 transition-all hover:border-brand/50 hover:bg-brand/10 disabled:cursor-not-allowed disabled:opacity-30"
+              className="grid h-11 w-11 place-items-center rounded-full border border-white/10 bg-white/5 transition-all hover:border-accent/50 hover:bg-accent/10 disabled:cursor-not-allowed disabled:opacity-30"
               aria-label="Previous"
             >
               <ChevronLeft className="h-5 w-5" />
@@ -924,7 +924,7 @@ function Testimonials() {
             <button
               onClick={handleNext}
               disabled={!canNext}
-              className="grid h-11 w-11 place-items-center rounded-full border border-white/10 bg-white/5 transition-all hover:border-brand/50 hover:bg-brand/10 disabled:cursor-not-allowed disabled:opacity-30"
+              className="grid h-11 w-11 place-items-center rounded-full border border-white/10 bg-white/5 transition-all hover:border-accent/50 hover:bg-accent/10 disabled:cursor-not-allowed disabled:opacity-30"
               aria-label="Next"
             >
               <ChevronRight className="h-5 w-5" />
@@ -939,10 +939,13 @@ function Testimonials() {
                 key={t.name}
                 className="min-w-0 shrink-0 grow-0 basis-full md:basis-1/2 lg:basis-1/3"
               >
-                <div className="group relative flex h-full flex-col rounded-3xl border border-white/10 bg-gradient-to-br from-card to-card/40 p-8 backdrop-blur-sm transition-all duration-500 hover:border-brand/40">
-                  <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-brand/0 blur-3xl transition-all duration-700 group-hover:bg-brand/20" />
+                <motion.div
+                  whileTap={TAP}
+                  className="group relative flex h-full flex-col rounded-3xl border border-white/10 bg-gradient-to-br from-card to-card/40 p-8 backdrop-blur-sm transition-all duration-500 hover:border-accent/50 active:border-accent/50"
+                >
+                  <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-accent/0 blur-3xl transition-all duration-700 group-hover:bg-accent/25 group-active:bg-accent/25" />
                   <div className="relative flex flex-1 flex-col">
-                    <div className="flex gap-0.5 text-brand">
+                    <div className="flex gap-0.5 text-accent">
                       {Array.from({ length: 5 }).map((_, s) => (
                         <Star key={s} className="h-4 w-4 fill-current" strokeWidth={0} />
                       ))}
@@ -963,7 +966,7 @@ function Testimonials() {
                       </div>
                     </div>
                   </div>
-                </div>
+                </motion.div>
               </div>
             ))}
           </div>
@@ -975,7 +978,7 @@ function Testimonials() {
               key={i}
               onClick={() => handleDot(i)}
               className={`h-1.5 rounded-full transition-all ${
-                i === selected ? "w-8 bg-brand" : "w-1.5 bg-white/20 hover:bg-white/40"
+                i === selected ? "w-8 bg-accent" : "w-1.5 bg-white/20 hover:bg-white/40"
               }`}
               aria-label={`Go to slide ${i + 1}`}
             />
@@ -995,24 +998,31 @@ function Guarantee() {
         <Reveal>
           <motion.div
             whileHover={{ y: -6, scale: 1.005 }}
+            whileTap={TAP}
             transition={{ type: "spring", stiffness: 200, damping: 20 }}
-            className="group relative overflow-hidden rounded-[2rem] border border-accent/40 p-10 transition-all duration-500 hover:border-brand/60 hover:shadow-[0_30px_90px_-20px_rgba(225,106,61,0.45)] sm:p-16"
+            className="group relative overflow-hidden rounded-[2rem] border border-accent/40 p-10 transition-all duration-500 hover:border-brand/60 hover:shadow-[0_30px_90px_-20px_rgba(225,106,61,0.45)] active:border-brand/60 sm:p-16"
             style={{
               background:
                 "linear-gradient(135deg, #006F7C 0%, oklch(0.24 0.04 260) 70%)",
             }}
           >
-            <div className="pointer-events-none absolute -right-20 -top-20 h-80 w-80 rounded-full bg-brand/30 blur-3xl orb" />
+            <div className="pointer-events-none absolute -right-20 -top-20 h-80 w-80 rounded-full bg-accent/40 blur-3xl orb" />
             <div
               className="pointer-events-none absolute -bottom-24 -left-20 h-80 w-80 rounded-full bg-white/10 blur-3xl orb"
               style={{ animationDelay: "4s" }}
             />
 
             <div className="relative grid items-start gap-10 md:grid-cols-[auto_1fr]">
-              <div className="grid h-24 w-24 shrink-0 place-items-center rounded-2xl border border-white/30 bg-background/40 backdrop-blur-sm sm:h-32 sm:w-32">
+              <div
+                className="grid h-24 w-24 shrink-0 place-items-center rounded-2xl border-2 border-brand bg-background/40 backdrop-blur-sm sm:h-32 sm:w-32"
+                style={{
+                  boxShadow:
+                    "0 0 0 4px rgba(225,106,61,0.15), 0 0 40px -5px rgba(225,106,61,0.6)",
+                }}
+              >
                 <ShieldCheck
-                  className="h-12 w-12 text-white sm:h-16 sm:w-16"
-                  strokeWidth={1.5}
+                  className="h-12 w-12 text-brand sm:h-16 sm:w-16"
+                  strokeWidth={1.8}
                 />
               </div>
               <div className="min-w-0">
@@ -1021,7 +1031,7 @@ function Guarantee() {
                 </p>
                 <h2 className="mt-3 text-balance text-4xl font-extrabold leading-[1.05] tracking-tight text-white sm:text-5xl md:text-6xl">
                   We don't get paid{" "}
-                  <span style={{ color: "#FFD8C7" }}>unless you do.</span>
+                  <span style={{ color: "#B8F5FF" }}>unless you do.</span>
                 </h2>
                 <p className="mt-6 text-balance text-base leading-relaxed text-white/90 sm:text-lg">
                   If your campaign isn't generating a positive return on ad spend within the
@@ -1039,27 +1049,33 @@ function Guarantee() {
 
         <Reveal delay={0.15}>
           <motion.div
-            whileHover={{ y: -4 }}
+            whileHover={{ y: -3 }}
+            whileTap={TAP}
             transition={{ type: "spring", stiffness: 220, damping: 20 }}
-            className="group relative mx-auto mt-8 overflow-hidden rounded-2xl border border-brand/40 p-8 text-center backdrop-blur-sm sm:p-10"
+            className="group relative mx-auto mt-6 overflow-hidden rounded-xl border border-white/10 px-6 py-5 text-center backdrop-blur-sm sm:px-8 sm:py-6"
             style={{
               backgroundImage:
-                "linear-gradient(120deg, rgba(225,106,61,0.18) 0%, rgba(0,111,124,0.18) 50%, rgba(225,106,61,0.18) 100%)",
+                "linear-gradient(120deg, rgba(0,111,124,0.12) 0%, rgba(0,111,124,0.06) 50%, rgba(0,111,124,0.12) 100%)",
             }}
           >
-            <div className="animated-gradient absolute inset-0 -z-10 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+            <div
+              className="animated-gradient absolute inset-0 -z-10 opacity-0 transition-opacity duration-500 group-hover:opacity-100 group-active:opacity-100"
               style={{
                 backgroundImage:
                   "linear-gradient(120deg, rgba(225,106,61,0.35), rgba(0,111,124,0.35), rgba(225,106,61,0.35))",
               }}
             />
-            <p className="text-balance text-xl font-bold leading-snug text-foreground sm:text-2xl md:text-3xl">
-              No long-term contracts.{" "}
-              <span className="text-brand">No lock-in.</span>{" "}
-              We earn your business every single month.
+            <p className="text-balance text-base font-semibold leading-snug text-foreground/90 sm:text-lg">
+              <span className="block">
+                No long-term contracts.{" "}
+                <span className="text-accent">No lock-in.</span>
+              </span>
+              <span className="mt-1 block text-sm font-normal text-muted-foreground sm:text-base">
+                We earn your business every single month.
+              </span>
             </p>
-            <div className="mt-7">
-              <CTAButton size="lg">Hold Us Accountable</CTAButton>
+            <div className="mt-5">
+              <CTAButton size="sm">Hold Us Accountable</CTAButton>
             </div>
           </motion.div>
         </Reveal>
@@ -1076,8 +1092,11 @@ function Exclusivity() {
       <div className="absolute inset-0 grid-bg opacity-60" />
       <div className="relative mx-auto max-w-6xl px-5 text-center sm:px-8">
         <Reveal>
-          <div className="inline-flex items-center gap-2 rounded-full border border-destructive/30 bg-destructive/10 px-5 py-2 text-xs font-semibold uppercase tracking-wider text-brand">
-            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-brand" />
+          <div
+            className="inline-flex items-center gap-2.5 rounded-full border-2 border-destructive/60 bg-destructive/15 px-6 py-3 text-sm font-bold uppercase tracking-wider text-destructive shadow-[0_0_30px_-5px_rgba(220,38,38,0.5)] sm:text-base"
+            style={{ color: "#ef4444" }}
+          >
+            <span className="h-2 w-2 animate-pulse rounded-full bg-destructive" style={{ background: "#ef4444" }} />
             Limited availability
           </div>
         </Reveal>
@@ -1095,7 +1114,7 @@ function Exclusivity() {
         <Reveal delay={0.2}>
           <p className="mx-auto mt-8 max-w-3xl text-balance text-lg leading-relaxed text-muted-foreground sm:text-xl">
             We don't work with two plumbers in Austin or two roofers in Denver. We take{" "}
-            <span className="font-semibold text-foreground">
+            <span className="font-semibold text-accent">
               one business per service category per city
             </span>
             , and we go all in on winning that market for them. Once your area is taken we
@@ -1144,7 +1163,7 @@ function FAQ() {
     <section id="faq" className="relative border-t border-white/5 py-24 sm:py-32">
       <div className="mx-auto max-w-3xl px-5 sm:px-8">
         <Reveal>
-          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-brand">FAQ</p>
+          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-accent">FAQ</p>
           <h2 className="mt-3 text-balance text-4xl font-bold tracking-tight sm:text-5xl">
             Common questions.
           </h2>
@@ -1157,7 +1176,7 @@ function FAQ() {
               <Reveal key={f.q} delay={i * 0.05}>
                 <div
                   className={`overflow-hidden rounded-2xl border bg-card/50 backdrop-blur-sm transition-all duration-300 ${
-                    isOpen ? "border-brand/40 bg-card" : "border-white/10 hover:border-white/20"
+                    isOpen ? "border-accent/50 bg-card" : "border-white/10 hover:border-white/20"
                   }`}
                 >
                   <button
@@ -1167,7 +1186,7 @@ function FAQ() {
                     <span className="text-base font-semibold sm:text-lg">{f.q}</span>
                     <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-white/10 bg-white/5 transition-all duration-300">
                       {isOpen ? (
-                        <Minus className="h-4 w-4 text-brand" />
+                        <Minus className="h-4 w-4 text-accent" />
                       ) : (
                         <Plus className="h-4 w-4" />
                       )}
@@ -1213,12 +1232,12 @@ function FinalCTA() {
         className="pointer-events-none absolute inset-x-0 bottom-0 h-[500px]"
         style={{
           background:
-            "radial-gradient(ellipse 60% 70% at 50% 100%, oklch(0.34 0.1 220 / 0.55), transparent 70%)",
+            "radial-gradient(ellipse 60% 70% at 50% 100%, rgba(0,111,124,0.50), transparent 70%)",
         }}
       />
       <motion.div
         style={{ y: bgY }}
-        className="pointer-events-none absolute left-1/2 top-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand/15 blur-3xl orb"
+        className="pointer-events-none absolute left-1/2 top-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/20 blur-3xl orb"
       />
 
       <div className="relative mx-auto max-w-4xl px-5 text-center sm:px-8">
@@ -1259,29 +1278,26 @@ function Footer() {
     <footer className="border-t border-white/5 bg-navy-900/40 py-14">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <div>
-          <div className="flex items-center gap-3 font-bold tracking-tight">
-            <img src={LOGO_URL} alt="VizionBox" className="h-12 w-auto object-contain" />
-            <span className="text-xl">VizionBox</span>
-          </div>
+          <img src={LOGO_URL} alt="VizionBox" className="h-14 w-auto object-contain" />
           <p className="mt-4 text-sm text-muted-foreground">
             Google Ads Management for Home Service Businesses
           </p>
           <div className="mt-4 flex flex-col gap-1 text-sm">
             <a
               href="mailto:mustafa@thevizionbox.com"
-              className="text-foreground transition-colors hover:text-brand"
+              className="text-foreground transition-colors hover:text-accent"
             >
               mustafa@thevizionbox.com
             </a>
             <a
               href="mailto:paniz@thevizionbox.com"
-              className="text-foreground transition-colors hover:text-brand"
+              className="text-foreground transition-colors hover:text-accent"
             >
               paniz@thevizionbox.com
             </a>
             <a
               href="https://thevizionbox.com"
-              className="text-muted-foreground transition-colors hover:text-brand"
+              className="text-muted-foreground transition-colors hover:text-accent"
             >
               thevizionbox.com
             </a>
@@ -1289,7 +1305,7 @@ function Footer() {
         </div>
         <div className="mt-10 flex flex-col items-start justify-between gap-4 border-t border-white/5 pt-6 text-xs text-muted-foreground sm:flex-row sm:items-center">
           <span>© {new Date().getFullYear()} VizionBox. All rights reserved.</span>
-          <Link to="/privacy" className="hover:text-brand">
+          <Link to="/privacy" className="hover:text-accent">
             Privacy Policy
           </Link>
         </div>
