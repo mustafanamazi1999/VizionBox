@@ -88,9 +88,9 @@ function Index() {
 
 const NAV_LINKS = [
   { href: "#how", label: "How It Works" },
+  { href: "#what", label: "What You Get" },
   { href: "#industries", label: "Industries" },
   { href: "#results", label: "Results" },
-  { href: "#what", label: "What You Get" },
   { href: "#testimonials", label: "Testimonials" },
   { href: "#guarantee", label: "Guarantee" },
   { href: "#faq", label: "FAQ" },
@@ -114,7 +114,7 @@ function Header({ pastHero }: { pastHero: boolean }) {
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-white/5 bg-background/70 backdrop-blur-xl">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-3 sm:px-8">
-        <Logo height={56} />
+        <Logo height={112} />
 
         <nav className="hidden items-center gap-6 lg:flex">
           {NAV_LINKS.map((l) => (
@@ -211,7 +211,7 @@ function Hero() {
         className="relative mx-auto max-w-5xl px-5 text-center sm:px-8"
       >
         <Reveal>
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-accent sm:text-sm">
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-brand sm:text-sm">
             Google Ads for Home Services
           </p>
         </Reveal>
@@ -298,17 +298,15 @@ function Certifications() {
   return (
     <section className="border-b border-white/5 py-10">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
-        <div className="grid grid-cols-3 items-center justify-items-center gap-3 sm:gap-6">
+        <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-4 sm:gap-x-8">
           {CERTS.map((c, i) => (
             <Reveal key={c.label} delay={i * 0.08}>
-              <div className="flex items-center justify-center rounded-full border border-accent/30 bg-white/[0.04] px-4 py-2 backdrop-blur-sm transition-all duration-300 hover:border-accent hover:bg-accent/10 sm:px-7 sm:py-3">
-                <img
-                  src={c.src}
-                  alt={c.label}
-                  className="h-10 w-auto object-contain sm:h-12"
-                  loading="lazy"
-                />
-              </div>
+              <img
+                src={c.src}
+                alt={c.label}
+                className="h-20 w-auto object-contain sm:h-24"
+                loading="lazy"
+              />
             </Reveal>
           ))}
         </div>
@@ -351,7 +349,7 @@ function HowItWorks() {
     <section id="how" className="relative border-t border-white/5 py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <Reveal>
-          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-accent">
+          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-brand">
             How it works
           </p>
           <h2 className="mt-3 max-w-3xl text-balance text-4xl font-bold tracking-tight sm:text-5xl">
@@ -373,7 +371,7 @@ function HowItWorks() {
                     <div className="text-4xl transition-transform duration-500 group-hover:scale-125 group-hover:rotate-6 group-active:scale-125 group-active:rotate-6 drop-shadow-[0_4px_10px_rgba(0,111,124,0.45)]">
                       {step.emoji}
                     </div>
-                    <span className="text-5xl font-black text-white/10 transition-all duration-500 group-hover:text-accent group-hover:scale-110 group-active:text-accent group-active:scale-110">
+                    <span className="inline-block text-5xl font-black text-accent transition-all duration-500 drop-shadow-[0_0_8px_rgba(0,111,124,0.25)] group-hover:scale-[1.35] group-hover:brightness-150 group-hover:drop-shadow-[0_0_24px_rgba(0,181,199,0.95)] group-active:scale-[1.35] group-active:brightness-150 group-active:drop-shadow-[0_0_24px_rgba(0,181,199,0.95)]">
                       {String(i + 1).padStart(2, "0")}
                     </span>
                   </div>
@@ -452,7 +450,7 @@ function WhatYouGet() {
       />
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
         <Reveal>
-          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-accent">
+          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-brand">
             What you get
           </p>
           <h2 className="mt-3 max-w-3xl text-balance text-4xl font-bold tracking-tight sm:text-5xl">
@@ -478,7 +476,7 @@ function WhatYouGet() {
                   {FEATURED_ITEM.emoji}
                 </div>
                 <div className="text-left">
-                  <span className="inline-block rounded-full border border-accent/40 bg-accent/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-accent">
+                  <span className="inline-block rounded-full border border-brand/40 bg-brand/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-brand">
                     The Engine
                   </span>
                   <h3 className="mt-3 text-2xl font-bold sm:text-3xl">
@@ -561,18 +559,21 @@ function HandsOff() {
 
 /* ---------------- Industries ---------------- */
 
-/* Real-photo backgrounds: Unsplash search source, "person at work" framing.
-   We use loremflickr with `person,worker` tags + the niche so results are real photographs of people physically performing the job. */
+/* Each photo is an individually selected, verified Pexels stock image
+   that visibly shows a real worker performing the specific trade. */
+const PEXELS = (id: number) =>
+  `https://images.pexels.com/photos/${id}/pexels-photo-${id}.jpeg?auto=compress&cs=tinysrgb&w=800`;
+
 const INDUSTRIES = [
-  { name: "HVAC", query: "hvac,technician,worker,person" },
-  { name: "Plumbing", query: "plumber,worker,person,working" },
-  { name: "Roofing", query: "roofer,construction,worker,person" },
-  { name: "Pest Control", query: "exterminator,pest,worker,person" },
-  { name: "Locksmith", query: "locksmith,worker,person,hands" },
-  { name: "Water Damage Restoration", query: "flood,restoration,worker,person" },
-  { name: "Foundation Repair", query: "foundation,construction,worker,person" },
-  { name: "Mold Remediation", query: "cleaning,remediation,worker,person" },
-  { name: "Garage Door Repair", query: "garage,repair,worker,person" },
+  { name: "HVAC", img: PEXELS(32497161) },
+  { name: "Plumbing", img: PEXELS(8486975) },
+  { name: "Roofing", img: PEXELS(21207685) },
+  { name: "Pest Control", img: PEXELS(19789837) },
+  { name: "Locksmith", img: PEXELS(4021565) },
+  { name: "Water Damage Restoration", img: PEXELS(28447786) },
+  { name: "Foundation Repair", img: PEXELS(35049145) },
+  { name: "Mold Remediation", img: PEXELS(4097271) },
+  { name: "Garage Door Repair", img: PEXELS(5691518) },
 ];
 
 function Industries() {
@@ -581,7 +582,7 @@ function Industries() {
       <div className="pointer-events-none absolute inset-x-0 top-1/3 h-96 bg-accent/5 blur-3xl" />
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
         <Reveal>
-          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-accent">
+          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-brand">
             Industries
           </p>
           <h2 className="mt-3 max-w-4xl text-balance text-4xl font-bold tracking-tight sm:text-5xl">
@@ -597,17 +598,17 @@ function Industries() {
           </p>
         </Reveal>
 
-        <div className="mt-14 grid grid-cols-2 gap-4 sm:gap-5 md:grid-cols-3">
+        <div className="mt-14 grid grid-cols-2 gap-4 sm:gap-5 md:grid-cols-3 md:max-w-5xl md:mx-auto">
           {INDUSTRIES.map((ind, i) => (
             <Reveal key={ind.name} delay={(i % 3) * 0.06}>
               <motion.div
                 whileHover={{ y: -6, scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 transition={{ type: "spring", stiffness: 280, damping: 20 }}
-                className="group relative aspect-[4/5] overflow-hidden rounded-2xl border border-white/10 transition-all duration-500 hover:border-accent/60 hover:shadow-[0_20px_60px_-15px_rgba(0,111,124,0.55)] active:border-accent/60"
+                className="group relative aspect-[4/5] md:aspect-[5/4] overflow-hidden rounded-2xl border border-white/10 transition-all duration-500 hover:border-accent/60 hover:shadow-[0_20px_60px_-15px_rgba(0,111,124,0.55)] active:border-accent/60"
               >
                 <img
-                  src={`https://loremflickr.com/600/750/${ind.query}?lock=${i + 11}`}
+                  src={ind.img}
                   alt={ind.name}
                   loading="lazy"
                   className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110 group-active:scale-110"
@@ -634,7 +635,7 @@ function Industries() {
               href={CALENDLY_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-accent underline-offset-4 hover:underline"
+              className="text-brand underline-offset-4 hover:underline"
             >
               Ask on your audit call
             </a>
@@ -696,7 +697,7 @@ function Results() {
       <div className="pointer-events-none absolute inset-x-0 top-1/3 h-96 bg-accent/5 blur-3xl" />
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
         <Reveal>
-          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-accent">Results</p>
+          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-brand">Results</p>
           <h2 className="mt-3 max-w-3xl text-balance text-4xl font-bold tracking-tight sm:text-5xl">
             What we've done for businesses like yours.
           </h2>
@@ -731,7 +732,7 @@ function Results() {
                         </p>
                       </div>
                     </div>
-                    <span className="rounded-full border border-accent/30 bg-accent/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-accent">
+                    <span className="rounded-full border border-brand/40 bg-brand/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-brand">
                       Case study
                     </span>
                   </div>
@@ -753,7 +754,7 @@ function Results() {
                       </div>
 
                       <div className="mt-2 flex items-baseline gap-3">
-                        <span className="text-[10px] font-semibold uppercase tracking-wider text-accent">
+                        <span className="text-base font-bold uppercase tracking-wider text-brand sm:text-lg">
                           After
                         </span>
                         <CountDown
@@ -904,7 +905,7 @@ function Testimonials() {
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <Reveal>
             <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-accent">
+              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-brand">
                 Testimonials
               </p>
               <h2 className="mt-3 max-w-2xl text-balance text-4xl font-bold tracking-tight sm:text-5xl">
@@ -1065,17 +1066,17 @@ function Guarantee() {
                   "linear-gradient(120deg, rgba(225,106,61,0.35), rgba(0,111,124,0.35), rgba(225,106,61,0.35))",
               }}
             />
-            <p className="text-balance text-base font-semibold leading-snug text-foreground/90 sm:text-lg">
+            <p className="text-balance text-lg font-semibold leading-snug text-foreground/90 sm:text-xl">
               <span className="block">
                 No long-term contracts.{" "}
                 <span className="text-accent">No lock-in.</span>
               </span>
-              <span className="mt-1 block text-sm font-normal text-muted-foreground sm:text-base">
+              <span className="mt-1 block text-base font-normal text-muted-foreground sm:text-lg">
                 We earn your business every single month.
               </span>
             </p>
             <div className="mt-5">
-              <CTAButton size="sm">Hold Us Accountable</CTAButton>
+              <CTAButton size="sm" className="!px-6 !py-3 !text-base">Hold Us Accountable</CTAButton>
             </div>
           </motion.div>
         </Reveal>
@@ -1163,7 +1164,7 @@ function FAQ() {
     <section id="faq" className="relative border-t border-white/5 py-24 sm:py-32">
       <div className="mx-auto max-w-3xl px-5 sm:px-8">
         <Reveal>
-          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-accent">FAQ</p>
+          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-brand">FAQ</p>
           <h2 className="mt-3 text-balance text-4xl font-bold tracking-tight sm:text-5xl">
             Common questions.
           </h2>
@@ -1278,7 +1279,7 @@ function Footer() {
     <footer className="border-t border-white/5 bg-navy-900/40 py-14">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <div>
-          <img src={LOGO_URL} alt="VizionBox" className="h-14 w-auto object-contain" />
+          <img src={LOGO_URL} alt="VizionBox" className="h-[112px] w-auto object-contain" />
           <p className="mt-4 text-sm text-muted-foreground">
             Google Ads Management for Home Service Businesses
           </p>
