@@ -28,10 +28,10 @@ import { Reveal } from "@/components/Reveal";
 import { CountUp } from "@/components/CountUp";
 import { CountDown } from "@/components/CountDown";
 import { usePastHero } from "@/hooks/use-past-hero";
-const logoFullAsset = "/VizionBox logo.png";
-const googlePartnerAsset = "/Google Partner Certificate.png";
-const googleAdsCertAsset = "/google ads search certificate.png";
-const googleAdsSearchAsset = "/Google Ads Certificate.png";
+const logoFullAsset = { url: "/VizionBox%20logo.png" };
+const googlePartnerAsset = { url: "/Google%20Partner%20Certificate.png" };
+const googleAdsCertAsset = { url: "/Google%20Ads%20Certificate.png" };
+const googleAdsSearchAsset = { url: "/google%20ads%20search%20certificate.png" };
 
 export const Route = createFileRoute("/")({
   head: () => ({
